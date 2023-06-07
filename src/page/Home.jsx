@@ -4,7 +4,6 @@ import useStore from "../store/store.js";
 import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
 let first = false;
-
 function Home() {
   const stores = useStore((state) => state);
   const [ref, inView] = useInView();
@@ -24,32 +23,34 @@ function Home() {
         stores.fetchData();
         setTimeout(() => {
           setLoading(false);
-        }, 200);
+        }, 300);
       }, 1000);
     }
   }, [inView, loading]);
 
+  const backDrop = {
+    background: `url(https://image.tmdb.org/t/p/original/${stores.homeImg}) center center /cover no-repeat`,
+  };
+
   return (
     <>
-      <input
-        type="text"
-        onInput={(e) => {
-          stores.fetchSearchData(e.target.value);
-        }}
-      />
+      <div className="movie-home" style={backDrop}>
+        <input
+          type="text"
+          onInput={(e) => {
+            stores.fetchSearchData(e.target.value);
+          }}
+        />
+      </div>
+
       <div className="movie-list">
         {!stores.movieSearch
           ? stores.movieData.map((a) => {
               return <List data={a} key={a.id} listRef={ref} />;
             })
-          : null}
-      </div>
-      <div className="movie-list">
-        {stores.movieSearch
-          ? stores.movieDataSearch.map((a) => {
+          : stores.movieDataSearch.map((a) => {
               return <List data={a} key={a.id} listRef={null} />;
-            })
-          : null}
+            })}
       </div>
       {loading ? <div className="loading">로딩중입니당</div> : null}
     </>
@@ -59,7 +60,22 @@ function Home() {
 function List({ data, listRef }) {
   return (
     <Link className="movie-list-item" to={`/sub/${data.id}`} ref={listRef}>
-      {data.title}
+      <div className="movie-list-item__img">
+        <img
+          src={`https://image.tmdb.org/t/p/w500/${data.poster_path}`}
+          alt={data.title}
+        />
+      </div>
+      <div className="movie-list-item__title">
+        <div>
+          <p>{data.title}</p>
+          <p>{data.original_title}</p>
+        </div>
+        <p>{data.release_date}</p>
+      </div>
+      <div className="movie-list-item__detail">
+        <p>{data.overview}</p>
+      </div>
     </Link>
   );
 }

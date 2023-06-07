@@ -11,6 +11,7 @@ const useStore = create((set) => ({
   movieData: [],
   movieDetail: [],
   movieDataSearch: [],
+  homeImg: "/h8gHn0OzBoaefsYseUByqsmEDMY.jpg",
   movieSearch: false,
   // 불러오기
   async fetchData() {
@@ -23,6 +24,7 @@ const useStore = create((set) => ({
         data = res.data.results;
       });
     set((state) => ({ movieData: [...state.movieData, ...data] }));
+    pageNum == 1 ? set(() => ({ homeImg: data[0].backdrop_path })) : null;
   },
   // 상세페이지
   async fetchDetail(e) {
