@@ -18,6 +18,7 @@ function Home() {
 
   useEffect(() => {
     if (inView && !loading) {
+      console.log("실행중이니..?");
       setLoading(true);
       setTimeout(() => {
         stores.fetchData();
@@ -35,12 +36,18 @@ function Home() {
   return (
     <>
       <div className="movie-home" style={backDrop}>
-        <input
-          type="text"
-          onInput={(e) => {
-            stores.fetchSearchData(e.target.value);
-          }}
-        />
+        <div className="movie-home-inputbox">
+          <input
+            type="text"
+            placeholder="Please enter the movie title you want to find "
+            onInput={(e) => {
+              stores.fetchSearchData(e.target.value);
+            }}
+          />
+          {stores.notFind ? (
+            <div className="not-find">No search results found.</div>
+          ) : null}
+        </div>
       </div>
 
       <div className="movie-list">
@@ -52,7 +59,8 @@ function Home() {
               return <List data={a} key={a.id} listRef={null} />;
             })}
       </div>
-      {loading ? <div className="loading">로딩중입니당</div> : null}
+
+      {loading && <div className="loading">loding</div>}
     </>
   );
 }

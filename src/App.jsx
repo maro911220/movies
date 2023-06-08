@@ -5,9 +5,9 @@ import Sub from "./page/Sub";
 function App() {
   return (
     <>
-      <div>
+      <haeder className="header">
         <Link to="/">Home</Link>
-      </div>
+      </haeder>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/sub/:id" element={<Sub />} />

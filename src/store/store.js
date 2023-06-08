@@ -13,6 +13,7 @@ const useStore = create((set) => ({
   movieDataSearch: [],
   homeImg: "/h8gHn0OzBoaefsYseUByqsmEDMY.jpg",
   movieSearch: false,
+  notFind: false,
   // 불러오기
   async fetchData() {
     pageNum++;
@@ -24,7 +25,7 @@ const useStore = create((set) => ({
         data = res.data.results;
       });
     set((state) => ({ movieData: [...state.movieData, ...data] }));
-    pageNum == 1 ? set(() => ({ homeImg: data[0].backdrop_path })) : null;
+    pageNum == 1 && set(() => ({ homeImg: data[0].backdrop_path }));
   },
   // 상세페이지
   async fetchDetail(e) {
@@ -43,7 +44,7 @@ const useStore = create((set) => ({
   },
   // 검색하기
   async fetchSearchData(e) {
-    let seraching;
+    let seraching, find;
     e == "" ? (seraching = false) : (seraching = true);
     set(() => ({ movieSearch: seraching }));
     await axios
@@ -53,6 +54,10 @@ const useStore = create((set) => ({
       .then((res) => {
         dataSearch = res.data.results;
       });
+
+    if (seraching == false) find = false;
+    else dataSearch.length == 0 ? (find = true) : (find = false);
+    set(() => ({ notFind: find }));
     set(() => ({ movieDataSearch: dataSearch }));
   },
 }));
