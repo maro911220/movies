@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import useStore from "../store/store.js";
 import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 let first = false;
 function Home() {
   const stores = useStore((state) => state);
@@ -67,24 +69,32 @@ function Home() {
 
 function List({ data, listRef }) {
   return (
-    <Link className="movie-list-item" to={`/sub/${data.id}`} ref={listRef}>
-      <div className="movie-list-item__img">
-        <img
-          src={`https://image.tmdb.org/t/p/w500/${data.poster_path}`}
-          alt={data.title}
-        />
-      </div>
-      <div className="movie-list-item__title">
-        <div>
-          <p>{data.title}</p>
-          <p>{data.original_title}</p>
+    <motion.div
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 1 }}
+      className="movie-list-item"
+      ref={listRef}
+    >
+      <Link to={`/sub/${data.id}`}>
+        <div className="movie-list-item__img">
+          <img
+            src={`https://image.tmdb.org/t/p/w500/${data.poster_path}`}
+            alt={data.title}
+          />
         </div>
-        <p>{data.release_date}</p>
-      </div>
-      <div className="movie-list-item__detail">
-        <p>{data.overview}</p>
-      </div>
-    </Link>
+        <div className="movie-list-item__title">
+          <div>
+            <p>{data.title}</p>
+            <p>{data.original_title}</p>
+          </div>
+          <p>{data.release_date}</p>
+        </div>
+        <div className="movie-list-item__detail">
+          <p>{data.overview}</p>
+        </div>
+      </Link>
+    </motion.div>
   );
 }
 

@@ -1,17 +1,23 @@
-import { Link, Routes, Route } from "react-router-dom";
+import { Link, Routes, Route, useLocation } from "react-router-dom";
 import Home from "./page/Home";
 import Sub from "./page/Sub";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 function App() {
+  const location = useLocation();
   return (
     <>
-      <haeder className="header">
+      <nav className="header">
         <Link to="/">Home</Link>
-      </haeder>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/sub/:id" element={<Sub />} />
-      </Routes>
+      </nav>
+      <TransitionGroup className="transition-group">
+        <CSSTransition key={location.pathname} classNames="fade" timeout={500}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/sub/:id" element={<Sub />} />
+          </Routes>
+        </CSSTransition>
+      </TransitionGroup>
     </>
   );
 }

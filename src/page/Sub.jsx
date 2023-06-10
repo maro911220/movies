@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useParams } from "react-router-dom";
 import useStore from "../store/store";
 import { useEffect } from "react";
@@ -7,13 +8,13 @@ function Sub() {
 
   useEffect(() => {
     stores.fetchDetail(id);
-    return () => {
-      stores.fetchDetailReset();
-    };
   }, []);
   return (
     <>
-      <div>{stores.movieDetail.title}</div>
+      <div>
+        <div>{stores.movieDetail.title}</div>
+        <p>Hello??</p>
+      </div>
     </>
   );
 }
