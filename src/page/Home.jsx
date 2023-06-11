@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import useStore from "../store/store.js";
 import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import Load from "../components/Load.jsx";
 let first = false;
 function Home() {
   const stores = useStore((state) => state);
@@ -19,15 +20,16 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    if (inView && !loading) {
-      console.log("실행중이니..?");
-      setLoading(true);
-      setTimeout(() => {
-        stores.fetchData();
+    if (!stores.lastCheck) {
+      if (inView && !loading) {
+        setLoading(true);
         setTimeout(() => {
-          setLoading(false);
-        }, 300);
-      }, 1000);
+          stores.fetchData();
+          setTimeout(() => {
+            setLoading(false);
+          }, 500);
+        }, 1000);
+      }
     }
   }, [inView, loading]);
 
@@ -37,6 +39,18 @@ function Home() {
 
   return (
     <>
+      <AnimatePresence>
+        {!first && (
+          <motion.div
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="loading-first"
+          >
+            <Load />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="movie-home" style={backDrop}>
         <div className="movie-home-inputbox">
           <input
@@ -62,12 +76,23 @@ function Home() {
             })}
       </div>
 
-      {loading && <div className="loading">loding</div>}
+      {loading && (
+        <div className="loading">
+          <Load />
+        </div>
+      )}
+
+      {stores.lastCheck && (
+        <div className="loading-last">
+          <p>Item does not exist.</p>
+        </div>
+      )}
     </>
   );
 }
 
 function List({ data, listRef }) {
+  const [hover, setHover] = useState(false);
   return (
     <motion.div
       initial={{ y: -100, opacity: 0 }}
@@ -75,23 +100,34 @@ function List({ data, listRef }) {
       transition={{ duration: 1 }}
       className="movie-list-item"
       ref={listRef}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
     >
       <Link to={`/sub/${data.id}`}>
         <div className="movie-list-item__img">
-          <img
+          <motion.img
+            animate={{ scale: hover ? 1.05 : 1 }}
+            transition={{ duration: 0.5 }}
             src={`https://image.tmdb.org/t/p/w500/${data.poster_path}`}
             alt={data.title}
           />
+          <AnimatePresence>
+            {hover && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                <p> {data.overview}</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
         <div className="movie-list-item__title">
-          <div>
-            <p>{data.title}</p>
-            <p>{data.original_title}</p>
-          </div>
+          <p>{data.title}</p>
+          <p>{data.original_title}</p>
           <p>{data.release_date}</p>
-        </div>
-        <div className="movie-list-item__detail">
-          <p>{data.overview}</p>
         </div>
       </Link>
     </motion.div>

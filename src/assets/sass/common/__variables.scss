@@ -1,10 +1,15 @@
 $white: #fff;
-$black: #222;
-$primary: #4942e4;
+$black: #111;
+$primary: #00d4d1;
 $wrap: rgba(0, 0, 0, 0.8);
 $gray: #ccc;
 
 :root {
   --bg: #{$white};
   --text: #{$black};
+}
+
+:root.dark {
+  --bg: #{$black};
+  --text: #{$white};
 }

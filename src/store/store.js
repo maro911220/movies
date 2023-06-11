@@ -11,6 +11,7 @@ const useStore = create((set) => ({
   movieData: [],
   movieDetail: [],
   movieDataSearch: [],
+  lastCheck: false,
   homeImg: "",
   movieSearch: false,
   notFind: false,
@@ -24,6 +25,7 @@ const useStore = create((set) => ({
       .then((res) => {
         data = res.data.results;
       });
+    if (data.length == 0) set(() => ({ lastCheck: true }));
     set((state) => ({ movieData: [...state.movieData, ...data] }));
     pageNum == 1 && set(() => ({ homeImg: data[0].backdrop_path }));
   },

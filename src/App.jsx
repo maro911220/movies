@@ -1,6 +1,7 @@
 import { Link, Routes, Route, useLocation } from "react-router-dom";
 import Home from "./page/Home";
 import Sub from "./page/Sub";
+import { BsFillBrightnessLowFill } from "react-icons/bs";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 function App() {
@@ -8,7 +9,17 @@ function App() {
   return (
     <>
       <nav className="header">
-        <Link to="/">Home</Link>
+        <div>
+          <Link to="/">Home</Link>
+          <button
+            className="mode-btn"
+            onClick={() => {
+              document.documentElement.classList.toggle("dark");
+            }}
+          >
+            <BsFillBrightnessLowFill />
+          </button>
+        </div>
       </nav>
       <TransitionGroup className="transition-group">
         <CSSTransition key={location.pathname} classNames="fade" timeout={500}>
