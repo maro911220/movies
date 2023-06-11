@@ -6,21 +6,24 @@ import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import Load from "../components/Load.jsx";
-let first = false;
+
+// 홈 컴포넌트
 function Home() {
   const stores = useStore((state) => state);
   const [ref, inView] = useInView();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (first == false) {
+    // 첫 페이지 로드시만 실행
+    if (stores.pageStart == true) {
       stores.fetchData();
-      first = true;
     }
   }, []);
 
   useEffect(() => {
+    // 목록이 마지막인지 확인
     if (!stores.lastCheck) {
+      // 스크롤 감지
       if (inView && !loading) {
         setLoading(true);
         setTimeout(() => {
@@ -39,8 +42,9 @@ function Home() {
 
   return (
     <>
+      {/* 처음 데이터 불러오기전 로딩 */}
       <AnimatePresence>
-        {!first && (
+        {stores.pageStart && (
           <motion.div
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -51,6 +55,7 @@ function Home() {
         )}
       </AnimatePresence>
 
+      {/* 홈 메인 검색 영역 */}
       <div className="movie-home" style={backDrop}>
         <div className="movie-home-inputbox">
           <input
@@ -66,6 +71,7 @@ function Home() {
         </div>
       </div>
 
+      {/* 영화 리스트 */}
       <div className="movie-list">
         {!stores.movieSearch
           ? stores.movieData.map((a) => {
@@ -76,12 +82,14 @@ function Home() {
             })}
       </div>
 
+      {/* 로딩중 */}
       {loading && (
         <div className="loading">
           <Load />
         </div>
       )}
 
+      {/* 마지막 항목 */}
       {stores.lastCheck && (
         <div className="loading-last">
           <p>Item does not exist.</p>
@@ -91,6 +99,7 @@ function Home() {
   );
 }
 
+// 리스트 컴포넌트
 function List({ data, listRef }) {
   const [hover, setHover] = useState(false);
   return (
