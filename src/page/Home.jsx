@@ -13,17 +13,16 @@ function Home() {
   const [ref, inView] = useInView();
   const [loading, setLoading] = useState(false);
 
+  // 처음 불러오기
   useEffect(() => {
-    // 첫 페이지 로드시만 실행
     if (stores.pageStart == true) {
       stores.fetchData();
     }
   }, []);
 
+  // 스크롤 옵저버
   useEffect(() => {
-    // 목록이 마지막인지 확인
     if (!stores.lastCheck) {
-      // 스크롤 감지
       if (inView && !loading) {
         setLoading(true);
         setTimeout(() => {
@@ -106,7 +105,7 @@ function List({ data, listRef }) {
     <motion.div
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 1 }}
+      transition={{ duration: 1, ease: "easeOut" }}
       className="movie-list-item"
       ref={listRef}
       onMouseEnter={() => setHover(true)}
@@ -122,14 +121,24 @@ function List({ data, listRef }) {
           />
           <AnimatePresence>
             {hover && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.5 }}
-              >
-                <p> {data.overview}</p>
-              </motion.div>
+              <>
+                <motion.div
+                  className="movie-list-item__detail"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1, zIndex: 2 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3, ease: "easeIn", delay: 0.4 }}
+                >
+                  <p> {data.overview}</p>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: "-100%" }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: "-100%" }}
+                  transition={{ duration: 0.5, ease: "easeIn" }}
+                  className="movie-list-item__wrap"
+                />
+              </>
             )}
           </AnimatePresence>
         </div>
