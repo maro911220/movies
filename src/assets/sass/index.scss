@@ -8,7 +8,6 @@ html {
 body {
   transition: 0.5s;
   color: var(--text);
-  overflow-y: scroll;
   background-color: var(--bg);
   font-family: "Roboto", "Noto Sans KR", sans-serif;
 
@@ -288,6 +287,78 @@ a {
     width: 100px;
     path {
       fill: $primary !important;
+    }
+  }
+}
+
+/* movie-detail */
+.movie-detail {
+  width: 100%;
+  height: calc(100vh - 80px);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+
+  &-bg {
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: fixed;
+    filter: brightness(0.5);
+  }
+
+  &-box {
+    width: 100%;
+    margin: 0 auto;
+    max-width: 1440px;
+    color: $white;
+    display: flex;
+    border-radius: 10px;
+    border: 1px solid $white;
+    background-color: $wrap;
+  }
+
+  &-poster {
+    border-radius: 10px 0 0 10px;
+    max-width: 500px;
+  }
+
+  &-text {
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    line-height: 1.2;
+    flex-direction: column;
+
+    &__title {
+      font-weight: bold;
+      font-size: 36px;
+      color: $primary;
+    }
+
+    &__original {
+      font-size: 24px;
+    }
+
+    &__date {
+      font-size: 20px;
+      border-bottom: 1px solid $white;
+      padding-bottom: 10px;
+    }
+
+    &__tagline {
+      margin: 40px 0 10px;
+      font-size: 24px;
+    }
+
+    &__overview {
+      word-break: keep-all;
+      font-size: 18px;
+      line-height: 1.5;
     }
   }
 }

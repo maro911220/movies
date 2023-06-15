@@ -12,6 +12,7 @@ const useStore = create((set) => ({
   movieData: [],
   movieDetail: [],
   movieDataSearch: [],
+  movieDetailCheck: false,
   lastCheck: false,
   homeImg: null,
   movieSearch: false,
@@ -31,10 +32,11 @@ const useStore = create((set) => ({
         console.log(err);
       });
 
-    setTimeout(() => {
-      pageNum == 1 &&
+    if (pageNum == 1) {
+      setTimeout(() => {
         set(() => ({ pageStart: false, homeImg: data[0].backdrop_path }));
-    }, 1500);
+      }, 1500);
+    }
 
     if (data.length == 0) set(() => ({ lastCheck: true }));
     set((state) => ({ movieData: [...state.movieData, ...data] }));
@@ -42,6 +44,7 @@ const useStore = create((set) => ({
 
   // 상세페이지
   async fetchDetail(e) {
+    set(() => ({ movieDetailCheck: false }));
     await axios
       .get(
         `https://api.themoviedb.org/3/movie/${e}?api_key=${apiKey}&language=ko`
@@ -52,7 +55,7 @@ const useStore = create((set) => ({
       .catch((err) => {
         console.log(err);
       });
-    set(() => ({ movieDetail: dataDetail }));
+    set(() => ({ movieDetail: dataDetail, movieDetailCheck: true }));
   },
 
   // 상세페이지 리셋
