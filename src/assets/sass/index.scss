@@ -13,37 +13,17 @@ body {
 
   &::-webkit-scrollbar {
     width: 12px;
-    background-color: transparent;
+    background-color: $primary;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: $primary;
+    background: var(--text);
   }
 }
 
 a {
   color: inherit;
   text-decoration: none;
-}
-
-/* fade */
-
-.fade-enter {
-  opacity: 0;
-}
-
-.fade-enter-active {
-  opacity: 1;
-  transition: all 0.5s ease-in;
-}
-
-.fade-exit {
-  opacity: 0;
-}
-
-.fade-exit-active {
-  opacity: 0;
-  transition: all 0.5s ease-in;
 }
 
 /* header */
@@ -292,7 +272,12 @@ a {
 }
 
 /* movie-detail */
+.movie-dummy {
+  background-color: $black;
+}
+
 .movie-detail {
+  overflow: hidden;
   width: 100%;
   height: calc(100vh - 80px);
   display: flex;
@@ -301,7 +286,7 @@ a {
   position: relative;
 
   &-bg {
-    z-index: -1;
+    z-index: 0;
     top: 0;
     left: 0;
     width: 100%;
@@ -312,6 +297,8 @@ a {
   }
 
   &-box {
+    position: relative;
+    z-index: 1;
     width: 100%;
     margin: 0 auto;
     max-width: 1440px;
