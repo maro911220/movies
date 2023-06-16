@@ -1,4 +1,4 @@
-import { Link, Routes, Route, useLocation } from "react-router-dom";
+import { Link, Routes, Route } from "react-router-dom";
 import Home from "./page/Home";
 import Sub from "./page/Sub";
 import {
@@ -6,11 +6,9 @@ import {
   TiWeatherNight,
   TiArrowUpOutline,
 } from "react-icons/ti";
-import { TransitionGroup, CSSTransition } from "react-transition-group";
 import { useState } from "react";
 
 function App() {
-  const location = useLocation();
   const [mode, setMode] = useState(true);
   return (
     <>
@@ -38,14 +36,11 @@ function App() {
           </div>
         </div>
       </nav>
-      <TransitionGroup className="transition-group">
-        <CSSTransition key={location.pathname} classNames="fade" timeout={500}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/sub/:id" element={<Sub />} />
-          </Routes>
-        </CSSTransition>
-      </TransitionGroup>
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/sub/:id" element={<Sub />} />
+      </Routes>
     </>
   );
 }

@@ -2,6 +2,7 @@
 import { useParams } from "react-router-dom";
 import useStore from "../store/store";
 import { useEffect } from "react";
+import { motion } from "framer-motion";
 function Sub() {
   let { id } = useParams();
   const stores = useStore((state) => state);
@@ -15,31 +16,43 @@ function Sub() {
   }, []);
   return (
     <>
-      {stores.movieDetailCheck && (
-        <div className="movie-detail">
-          <div className="movie-detail-box">
+      <div className="movie-dummy">
+        {stores.movieDetailCheck && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
+            className="movie-detail"
+          >
+            <motion.div
+              initial={{ y: "20%" }}
+              animate={{ y: 0 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+              className="movie-detail-box"
+            >
+              <img
+                className="movie-detail-poster"
+                src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                alt={movie.title}
+              />
+              <div className="movie-detail-text">
+                <p className="movie-detail-text__title">{movie.title}</p>
+                <p className="movie-detail-text__original">
+                  {movie.original_title}
+                </p>
+                <p className="movie-detail-text__date">{movie.release_date}</p>
+                <p className="movie-detail-text__tagline">{movie.tagline}</p>
+                <p className="movie-detail-text__overview">{movie.overview}</p>
+              </div>
+            </motion.div>
             <img
-              className="movie-detail-poster"
-              src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+              className="movie-detail-bg"
+              src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}
               alt={movie.title}
             />
-            <div className="movie-detail-text">
-              <p className="movie-detail-text__title">{movie.title}</p>
-              <p className="movie-detail-text__original">
-                {movie.original_title}
-              </p>
-              <p className="movie-detail-text__date">{movie.release_date}</p>
-              <p className="movie-detail-text__tagline">{movie.tagline}</p>
-              <p className="movie-detail-text__overview">{movie.overview}</p>
-            </div>
-          </div>
-          <img
-            className="movie-detail-bg"
-            src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}
-            alt={movie.title}
-          />
-        </div>
-      )}
+          </motion.div>
+        )}
+      </div>
     </>
   );
 }
