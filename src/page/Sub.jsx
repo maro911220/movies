@@ -11,6 +11,7 @@ function Sub() {
   useEffect(() => {
     stores.fetchDetailReset();
   }, []);
+
   useEffect(() => {
     stores.fetchDetail(id);
     console.log(movie);
@@ -34,17 +35,32 @@ function Sub() {
               transition={{ delay: 0.2, duration: 0.6 }}
               className="movie-detail-box"
             >
-              <img
-                className="movie-detail-poster"
-                src={`https://image.tmdb.org/t/p/w1280/${movie.poster_path}`}
-                alt={movie.title}
-              />
+              <div className="movie-detail-top">
+                <img
+                  className="movie-detail-poster"
+                  src={`https://image.tmdb.org/t/p/w1280/${movie.poster_path}`}
+                  alt={movie.title}
+                />
+                <div className="movie-detail-top__box">
+                  <div>
+                    <p className="movie-detail-text__title">{movie.title}</p>
+                    <p className="movie-detail-text__original">
+                      {movie.original_title}
+                    </p>
+                  </div>
+
+                  <div>
+                    <p className="movie-detail-text__date">
+                      {movie.release_date}
+                    </p>
+                    {movie.genres.map((a) => {
+                      return <p key={a.id}>{a.name}</p>;
+                    })}
+                  </div>
+                </div>
+              </div>
+
               <div className="movie-detail-text">
-                <p className="movie-detail-text__title">{movie.title}</p>
-                <p className="movie-detail-text__original">
-                  {movie.original_title}
-                </p>
-                <p className="movie-detail-text__date">{movie.release_date}</p>
                 <p className="movie-detail-text__tagline">{movie.tagline}</p>
                 <p className="movie-detail-text__overview">{movie.overview}</p>
               </div>

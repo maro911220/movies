@@ -17,6 +17,7 @@ const useStore = create((set) => ({
   homeImg: null,
   movieSearch: false,
   notFind: false,
+  test: [],
 
   // 불러오기
   async fetchData() {
@@ -51,11 +52,11 @@ const useStore = create((set) => ({
       )
       .then((res) => {
         dataDetail = res.data;
+        set(() => ({ movieDetail: dataDetail, movieDetailCheck: true }));
       })
       .catch((err) => {
         console.log(err);
       });
-    set(() => ({ movieDetail: dataDetail, movieDetailCheck: true }));
   },
 
   // 상세페이지 리셋
@@ -85,6 +86,11 @@ const useStore = create((set) => ({
       notFind: find,
       movieDataSearch: dataSearch,
     }));
+  },
+
+  // 메인 리셋
+  fetchSearchReset() {
+    set(() => ({ movieSearch: false }));
   },
 }));
 

@@ -15,6 +15,7 @@ function Home() {
 
   // 처음 불러오기
   useEffect(() => {
+    stores.fetchSearchReset();
     if (stores.pageStart == true) {
       stores.fetchData();
     }
