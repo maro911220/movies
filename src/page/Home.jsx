@@ -59,7 +59,7 @@ function Home() {
         <div className="movie-home-inputbox">
           <input
             type="text"
-            placeholder="Please enter the movie title you want to find "
+            placeholder="Please enter the movie title"
             onInput={(e) => {
               stores.fetchSearchData(e.target.value);
             }}
@@ -73,11 +73,11 @@ function Home() {
       {/* 영화 리스트 */}
       <div className="movie-list">
         {!stores.movieSearch
-          ? stores.movieData.map((a) => {
-              return <List data={a} key={a.id} listRef={ref} />;
+          ? stores.movieData.map((a, index) => {
+              return <List data={a} key={index} listRef={ref} />;
             })
-          : stores.movieDataSearch.map((a) => {
-              return <List data={a} key={a.id} listRef={null} />;
+          : stores.movieDataSearch.map((a, index) => {
+              return <List data={a} key={index} listRef={null} />;
             })}
       </div>
 
@@ -100,6 +100,13 @@ function Home() {
 
 // 리스트 컴포넌트
 function List({ data, listRef }) {
+  let img, date;
+  data.poster_path != null
+    ? (img = `https://image.tmdb.org/t/p/w500/${data.poster_path}`)
+    : (img = `https://cdn.pixabay.com/photo/2016/11/21/17/33/body-1846668_1280.jpg`);
+
+  data.release_date != "" ? (date = data.release_date) : (date = `???`);
+
   const [hover, setHover] = useState(false);
   return (
     <motion.div
@@ -116,7 +123,7 @@ function List({ data, listRef }) {
           <motion.img
             animate={{ scale: hover ? 1.05 : 1 }}
             transition={{ duration: 0.5 }}
-            src={`https://image.tmdb.org/t/p/w500/${data.poster_path}`}
+            src={img}
             alt={data.title}
           />
           <AnimatePresence>
@@ -127,7 +134,7 @@ function List({ data, listRef }) {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1, zIndex: 2 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3, ease: "easeIn", delay: 0.4 }}
+                  transition={{ duration: 0.3, ease: "easeIn", delay: 0.2 }}
                 >
                   <p> {data.overview}</p>
                 </motion.div>
@@ -135,7 +142,7 @@ function List({ data, listRef }) {
                   initial={{ opacity: 0, y: "-100%" }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: "-100%" }}
-                  transition={{ duration: 0.5, ease: "easeIn" }}
+                  transition={{ duration: 0.3, ease: "easeIn" }}
                   className="movie-list-item__wrap"
                 />
               </>
@@ -145,7 +152,7 @@ function List({ data, listRef }) {
         <div className="movie-list-item__title">
           <p>{data.title}</p>
           <p>{data.original_title}</p>
-          <p>{data.release_date}</p>
+          <p>{date}</p>
         </div>
       </Link>
     </motion.div>

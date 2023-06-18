@@ -23,7 +23,7 @@ const useStore = create((set) => ({
     pageNum++;
     await axios
       .get(
-        `https://api.themoviedb.org/3/movie/upcoming?api_key=${apiKey}&language=ko&page=${pageNum}`
+        `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=ko&page=${pageNum}`
       )
       .then((res) => {
         data = res.data.results;

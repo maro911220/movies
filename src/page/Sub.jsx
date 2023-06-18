@@ -13,6 +13,7 @@ function Sub() {
   }, []);
   useEffect(() => {
     stores.fetchDetail(id);
+    console.log(movie);
   }, []);
   return (
     <>
@@ -25,14 +26,17 @@ function Sub() {
             className="movie-detail"
           >
             <motion.div
-              initial={{ y: "20%" }}
-              animate={{ y: 0 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
+              initial={{
+                opacity: 0,
+                x: "-10%",
+              }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
               className="movie-detail-box"
             >
               <img
                 className="movie-detail-poster"
-                src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                src={`https://image.tmdb.org/t/p/w1280/${movie.poster_path}`}
                 alt={movie.title}
               />
               <div className="movie-detail-text">

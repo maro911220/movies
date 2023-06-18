@@ -1,16 +1,18 @@
 $white: #fff;
 $black: #111;
 $darkGray: #222;
-$primary: #00d4d1;
+$primary: #8894ff;
 $wrap: rgba(0, 0, 0, 0.8);
 $gray: #ccc;
 
 :root {
   --bg: #{$white};
   --text: #{$black};
+  --btnWrap: rgba(0, 0, 0, 0.5);
 }
 
 :root.dark {
   --bg: #{$black};
   --text: #{$white};
+  --btnWrap: rgba(255, 255, 255, 0.5);
 }
