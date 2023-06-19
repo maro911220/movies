@@ -19,6 +19,7 @@ function Sub() {
   return (
     <>
       <div className="movie-dummy">
+        <h2 className="blind">컨텐츠</h2>
         {stores.movieDetailCheck && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -43,25 +44,39 @@ function Sub() {
                 />
                 <div className="movie-detail-top__box">
                   <div>
-                    <p className="movie-detail-text__title">{movie.title}</p>
+                    <h3 className="movie-detail-text__title">{movie.title}</h3>
                     <p className="movie-detail-text__original">
                       {movie.original_title}
                     </p>
                   </div>
-
                   <div>
-                    <p className="movie-detail-text__date">
-                      {movie.release_date}
-                    </p>
-                    {movie.genres.map((a) => {
-                      return <p key={a.id}>{a.name}</p>;
-                    })}
+                    <div className="movie-detail-top__sub">
+                      <h4 className="movie-detail-text__sub">평점 :</h4>
+                      <p>{movie.vote_average}</p>
+                    </div>
+                    <div className="movie-detail-top__sub">
+                      <h4 className="movie-detail-text__sub">개봉 :</h4>
+                      <p>{movie.release_date}</p>
+                    </div>
+                    <div className="movie-detail-top__sub">
+                      <h4 className="movie-detail-text__sub">장르 :</h4>
+                      {movie.genres.map((a) => {
+                        return <p key={a.id}>{a.name}</p>;
+                      })}
+                    </div>
+
+                    <div className="movie-detail-top__sub">
+                      <h4 className="movie-detail-text__sub">제작사 :</h4>
+                      {movie.production_companies.map((a) => {
+                        return <p key={a.id}>{a.name} </p>;
+                      })}
+                    </div>
                   </div>
                 </div>
               </div>
 
               <div className="movie-detail-text">
-                <p className="movie-detail-text__tagline">{movie.tagline}</p>
+                <h4 className="movie-detail-text__tagline">{movie.tagline}</h4>
                 <p className="movie-detail-text__overview">{movie.overview}</p>
               </div>
             </motion.div>

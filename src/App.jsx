@@ -9,7 +9,9 @@ function App() {
   const [mode, setMode] = useState(true);
   return (
     <>
+      <h1 className="blind">main</h1>
       <nav className="header">
+        <h2 className="blind">header</h2>
         <div className="header-con">
           <Link to="/">MOVIE</Link>
           <div className="header-btn">

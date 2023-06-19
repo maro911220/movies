@@ -30,6 +30,14 @@ a {
   text-decoration: none;
 }
 
+.blind {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
 /* header */
 .header {
   top: 0;
@@ -346,12 +354,32 @@ a {
     gap: 20px;
     display: flex;
     padding-bottom: 20px;
+    align-items: flex-start;
     border-bottom: 1px solid $white;
 
     &__box {
+      height: 100%;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+    }
+
+    &__sub {
+      gap: 4px;
+      line-height: 1.5;
+      color: $gray;
+      display: flex;
+      flex-wrap: wrap;
+
+      p {
+        display: flex;
+        &::after {
+          content: ",";
+        }
+        &:last-of-type::after {
+          content: "";
+        }
+      }
     }
   }
 
@@ -363,30 +391,25 @@ a {
 
   &-text {
     width: 100%;
-    padding: 20px;
     display: flex;
     overflow: auto;
-    line-height: 1.2;
     flex-direction: column;
 
     &__title {
+      line-height: 1.2;
       font-size: 36px;
       color: $primary;
       font-weight: bold;
     }
 
     &__original {
-      font-size: 24px;
-    }
-
-    &__date {
       font-size: 20px;
-      padding-bottom: 10px;
     }
 
     &__tagline {
+      line-height: 1.2;
       font-size: 24px;
-      margin: 40px 0 10px;
+      margin: 20px 0 10px;
     }
 
     &__overview {
@@ -394,22 +417,14 @@ a {
       line-height: 1.5;
       word-break: keep-all;
     }
+
+    &__sub {
+      color: $white;
+    }
   }
 }
 
 /* media */
-@media (max-width: 1024px) {
-  .movie-detail-box {
-    flex-direction: column;
-  }
-
-  .movie-detail-poster {
-    height: 30vh;
-    max-width: 100%;
-    border-radius: 0;
-  }
-}
-
 @media (max-width: 768px) {
   .movie-home {
     height: 40vh;
