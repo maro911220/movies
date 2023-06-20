@@ -1,7 +1,8 @@
 import { create } from "zustand";
 import axios from "axios";
+const { VITE_SOME_KEY } = import.meta.env;
 
-const apiKey = import.meta.env.VITE_SOME_KEY;
+const apiKey = VITE_SOME_KEY;
 let pageNum = 0;
 
 const useStore = create((set) => ({
