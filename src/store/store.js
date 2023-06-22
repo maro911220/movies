@@ -9,6 +9,7 @@ const useStore = create((set) => ({
   pageStart: true,
   movieData: [],
   movieDetail: [],
+  movieDetailImg: [],
   movieDataSearch: [],
   movieDetailCheck: false,
   lastCheck: false,
@@ -72,7 +73,6 @@ const useStore = create((set) => ({
 
   // 상세페이지
   async fetchDetail(e) {
-    let id;
     let dataDetail = [];
     set(() => ({ movieDetailCheck: false }));
     await axios
@@ -82,24 +82,20 @@ const useStore = create((set) => ({
       .then((res) => {
         dataDetail = res.data;
         set(() => ({ movieDetail: dataDetail, movieDetailCheck: true }));
-        // 콜렉션이 있으면 아이디 가져오기
-        if (dataDetail.belongs_to_collection)
-          id = dataDetail.belongs_to_collection.id;
       })
       .catch((err) => {
         console.log(err);
       });
+  },
 
-    // 상세 아이디 기준으로 콜렉션 추가로 가져오기
-    if (id) {
-      await axios
-        .get(
-          `https://api.themoviedb.org/3/collection/${id}?api_key=${apiKey}&language=ko`
-        )
-        .then((res) => {
-          console.log(res);
-        });
-    }
+  async fetchDetailImg(e) {
+    let dataImg = [];
+    await axios
+      .get(`https://api.themoviedb.org/3/movie/${e}/images?api_key=${apiKey}`)
+      .then((res) => {
+        dataImg = res.data.backdrops;
+        set(() => ({ movieDetailImg: dataImg }));
+      });
   },
 
   // 상세페이지 리셋

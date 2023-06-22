@@ -1,8 +1,13 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useParams } from "react-router-dom";
 import useStore from "../store/store";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, FreeMode } from "swiper";
+import "swiper/css";
+
 function Sub() {
   let { id } = useParams();
   const stores = useStore((state) => state);
@@ -14,8 +19,10 @@ function Sub() {
 
   useEffect(() => {
     stores.fetchDetail(id);
+    stores.fetchDetailImg(id);
     console.log(movie);
   }, []);
+
   return (
     <>
       <div className="movie-dummy">
@@ -79,6 +86,28 @@ function Sub() {
                 <h4 className="movie-detail-text__tagline">{movie.tagline}</h4>
                 <p className="movie-detail-text__overview">{movie.overview}</p>
               </div>
+
+              <Swiper
+                className="mySwiper"
+                loop={1}
+                speed={5000}
+                freeMode={true}
+                spaceBetween={10}
+                slidesPerView={6}
+                autoplay={{ delay: 1, disableOnInteraction: false }}
+                modules={[Autoplay, FreeMode]}
+              >
+                {stores.movieDetailImg.map((a, index) => {
+                  return (
+                    <SwiperSlide key={index}>
+                      <img
+                        alt="sample"
+                        src={`https://image.tmdb.org/t/p/w500/${a.file_path}`}
+                      />
+                    </SwiperSlide>
+                  );
+                })}
+              </Swiper>
             </motion.div>
             <img
               className="movie-detail-bg"

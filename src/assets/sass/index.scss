@@ -352,7 +352,9 @@ a {
 
   &-top {
     gap: 20px;
+    flex: none;
     display: flex;
+    margin-bottom: 20px;
     padding-bottom: 20px;
     align-items: flex-start;
     border-bottom: 1px solid $white;
@@ -390,6 +392,7 @@ a {
   }
 
   &-text {
+    flex: 1;
     width: 100%;
     display: flex;
     overflow: auto;
@@ -420,6 +423,33 @@ a {
 
     &__sub {
       color: $white;
+    }
+  }
+}
+
+/* swiper */
+.swiper {
+  flex: none;
+  width: 100%;
+  height: 120px;
+  margin-top: 20px;
+  pointer-events: none;
+
+  &-wrapper {
+    transition-timing-function: linear;
+  }
+
+  &-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      border-radius: 6px;
     }
   }
 }
