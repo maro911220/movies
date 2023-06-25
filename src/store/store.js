@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import axios from "axios";
-const { VITE_SOME_KEY } = import.meta.env;
 
+const { VITE_SOME_KEY } = import.meta.env;
 const apiKey = VITE_SOME_KEY;
 let pageNum = 0;
 
@@ -13,10 +13,9 @@ const useStore = create((set) => ({
   movieDataSearch: [],
   movieDetailCheck: false,
   lastCheck: false,
-  homeImg: null,
+  homeImg: "zG9TYiHt0fdaJiWuNEhFrfKzwoi.jpg",
   movieSearch: false,
   notFind: false,
-  test: [],
 
   // 불러오기
   async fetchData() {
@@ -60,8 +59,8 @@ const useStore = create((set) => ({
     if (seraching == false) find = false;
     else dataSearch.length == 0 ? (find = true) : (find = false);
     set(() => ({
-      movieSearch: seraching,
       notFind: find,
+      movieSearch: seraching,
       movieDataSearch: dataSearch,
     }));
   },

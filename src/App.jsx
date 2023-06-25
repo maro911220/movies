@@ -22,6 +22,7 @@ function App() {
                 setMode(!mode);
               }}
             >
+              <span className="blind">화면 모드 변경</span>
               {mode ? <IoMdFlash /> : <IoMdFlashOff />}
             </button>
             {location == "/" && (
@@ -31,6 +32,7 @@ function App() {
                   window.scrollTo(0, 0);
                 }}
               >
+                <span className="blind">위로 올라가기</span>
                 <IoMdArrowRoundUp />
               </button>
             )}
