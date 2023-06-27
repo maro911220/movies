@@ -14,7 +14,7 @@ function App() {
         <h2 className="blind">header</h2>
         <div className="header-con">
           <Link to="/">
-            <img src="./logo.png" alt="logo" />
+            <img src={`${import.meta.env.BASE_URL}logo.png`} alt="logo" />
             <span>movies</span>
           </Link>
           <div className="header-btn">

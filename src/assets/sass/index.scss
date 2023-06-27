@@ -58,17 +58,21 @@ a {
   border-bottom: 1px solid $primary;
 
   a {
+    display: flex;
     font-size: 12px;
     transition: 0.3s;
     font-weight: bold;
     color: var(--text);
     letter-spacing: 1px;
+    align-items: flex-end;
     font-family: "yg-jalnan";
     text-transform: uppercase;
+    span {
+      line-height: 1.02;
+    }
 
     img {
       width: 100px;
-      vertical-align: text-bottom;
     }
   }
 
@@ -529,7 +533,6 @@ a {
 
     a {
       font-size: 10px;
-      line-height: 1.2;
       img {
         width: 75px;
       }
