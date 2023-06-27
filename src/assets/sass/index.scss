@@ -1,7 +1,13 @@
 @import "./common/_reset";
 @import "./common/_variables";
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Roboto&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Anton&display=swap");
+@font-face {
+  font-family: "yg-jalnan";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
 
 html {
   scroll-behavior: smooth;
@@ -52,20 +58,17 @@ a {
   border-bottom: 1px solid $primary;
 
   a {
-    font-size: 26px;
+    font-size: 12px;
     transition: 0.3s;
     font-weight: bold;
     color: var(--text);
     letter-spacing: 1px;
+    font-family: "yg-jalnan";
     text-transform: uppercase;
-    font-family: "Anton", cursive;
 
-    &::first-letter {
-      font-size: 52px;
-    }
-
-    &:hover {
-      color: $primary;
+    img {
+      width: 100px;
+      vertical-align: text-bottom;
     }
   }
 

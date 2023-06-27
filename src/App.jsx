@@ -13,7 +13,10 @@ function App() {
       <nav className="header">
         <h2 className="blind">header</h2>
         <div className="header-con">
-          <Link to="/">MOVIE</Link>
+          <Link to="/">
+            <img src="./logo.png" alt="logo" />
+            <span>movies</span>
+          </Link>
           <div className="header-btn">
             <button
               className="mode-btn"
