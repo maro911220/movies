@@ -16,11 +16,11 @@ html {
 * {
   &::-webkit-scrollbar {
     width: 12px;
-    background-color: $primary;
+    background: var(--text);
   }
 
   &::-webkit-scrollbar-thumb {
-    background: var(--text);
+    background-color: $primary;
   }
 }
 
@@ -29,6 +29,10 @@ body {
   color: var(--text);
   background-color: var(--bg);
   font-family: "Roboto", "Noto Sans KR", sans-serif;
+}
+
+#root {
+  overflow: hidden;
 }
 
 a {
@@ -67,9 +71,6 @@ a {
     align-items: flex-end;
     font-family: "yg-jalnan";
     text-transform: uppercase;
-    span {
-      line-height: 1.02;
-    }
 
     img {
       width: 100px;
@@ -84,35 +85,31 @@ a {
     max-width: 1440px;
     position: relative;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
   }
 
   &-btn {
     gap: 8px;
     right: 20px;
     display: flex;
-    position: absolute;
     align-items: center;
     top: calc(50% - 21px);
   }
 
-  .up-btn,
   .mode-btn {
     border: 0;
     width: 42px;
     height: 42px;
     display: flex;
-    cursor: pointer;
-    font-size: 32px;
-    transition: 0.3s;
-    border-radius: 4px;
-    color: var(--text);
     align-items: center;
-    background-color: transparent;
-
-    &:hover {
-      color: $primary;
-    }
+    justify-content: center;
+    cursor: pointer;
+    font-size: 24px;
+    transition: 0.3s;
+    border-radius: 6px;
+    color: $white;
+    align-items: center;
+    background-color: $primary;
   }
 }
 
@@ -139,7 +136,7 @@ a {
   input {
     box-sizing: border-box;
     max-width: 100%;
-    border: 0;
+    border: 2px solid transparent;
     width: 480px;
     color: $white;
     font-size: 20px;
@@ -154,9 +151,8 @@ a {
     }
 
     &:focus {
-      border: 0;
       outline: 0;
-      box-shadow: 0 0 10px $primary;
+      border-color: $primary;
     }
   }
 }
@@ -178,7 +174,7 @@ a {
   padding: 0 20px;
   max-width: 1440px;
   margin: 80px auto;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
 
   &-item {
     width: 100%;
@@ -194,7 +190,7 @@ a {
       &::after {
         content: "";
         width: 100%;
-        padding-bottom: 120%;
+        padding-bottom: 130%;
         display: inline-block;
       }
 
@@ -222,12 +218,12 @@ a {
       position: absolute;
 
       p {
-        height: 15em;
+        height: 7.5em;
         overflow: hidden;
         line-height: 1.5em;
         display: -webkit-box;
         word-wrap: break-word;
-        -webkit-line-clamp: 10;
+        -webkit-line-clamp: 5;
         text-overflow: ellipsis;
         -webkit-box-orient: vertical;
       }
@@ -247,6 +243,7 @@ a {
       background-color: $darkGray;
 
       p {
+        font-size: 14px;
         line-height: 1.4;
         overflow: hidden;
         white-space: nowrap;
@@ -268,6 +265,24 @@ a {
         }
       }
     }
+  }
+
+  .up-btn {
+    border: 0;
+    z-index: 4;
+    width: 60px;
+    height: 60px;
+    bottom: 20px;
+    color: $white;
+    display: flex;
+    cursor: pointer;
+    position: fixed;
+    font-size: 28px;
+    border-radius: 8px;
+    align-items: center;
+    justify-content: center;
+    background-color: $primary;
+    right: calc((100% - 1600px) / 2);
   }
 }
 
@@ -394,7 +409,8 @@ a {
 
   &-poster {
     width: 150px;
-    height: auto;
+    height: 225px;
+    object-fit: contain;
     border-radius: 10px;
   }
 
@@ -484,13 +500,28 @@ a {
 }
 
 /* media */
-@media (max-width: 768px) {
+
+@media (max-width: 1680px) {
+  .movie-list .up-btn {
+    width: 60px;
+    height: 60px;
+    right: 20px;
+  }
+}
+
+@media (max-width: 1279px) {
+  .movie-list {
+    gap: 10px;
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
   .movie-home {
     height: 40vh;
   }
 
   .movie-list {
-    gap: 10px;
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -501,6 +532,7 @@ a {
   /* sub */
   .movie-detail-poster {
     width: 100px;
+    height: 150px;
   }
 
   .movie-detail-text__title {
@@ -533,6 +565,7 @@ a {
 
     a {
       font-size: 10px;
+
       img {
         width: 75px;
       }
@@ -546,17 +579,15 @@ a {
       gap: 4px;
     }
 
-    .up-btn,
     .mode-btn {
       width: 36px;
-      height: 42px;
-      font-size: 24px;
+      height: 36px;
+      font-size: 18px;
     }
   }
 
   .movie-home {
     margin-top: 60px;
-    height: 25vh;
   }
 
   .movie-list {

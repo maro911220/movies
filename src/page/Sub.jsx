@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useParams } from "react-router-dom";
 import useStore from "../store/store";
 import { useEffect, useState } from "react";
@@ -16,20 +15,39 @@ function Sub() {
   const [swiper, setSwiper] = useState();
   const [slideNum, setSlideNum] = useState(0);
 
+  //이미지 없을 경우 처리
+  const img = movie.poster_path
+    ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+    : `${import.meta.env.BASE_URL}dummy_poster.jpg`;
+
+  const imgBack = movie.backdrop_path
+    ? `https://image.tmdb.org/t/p/original/${movie.backdrop_path}`
+    : `${import.meta.env.BASE_URL}dummy_bg.jpg`;
+
+  // 데이터 없을 경우 처리
+  const dataCheck = (e) => {
+    if (Array.isArray(e)) return e !== null ? e : [];
+    else return e !== "" ? e : "";
+  };
+
+  // 슬라이드 이미지 확대
   const imgOn = (e) => {
     setPop(true);
     setPopImg(`https://image.tmdb.org/t/p/w1280/${e}`);
   };
 
+  // 슬라이드 이미지 확대 닫기
   const imgOff = () => {
     setPop(false);
     swiper.slideTo(slideNum + 1);
   };
 
+  // 불러오기전 이전 데이터 리셋
   useEffect(() => {
     stores.fetchDetailReset();
   }, []);
 
+  // 데이터 불러오기
   useEffect(() => {
     stores.fetchDetail(id);
     stores.fetchDetailImg(id);
@@ -77,35 +95,38 @@ function Sub() {
               <div className="movie-detail-top">
                 <img
                   className="movie-detail-poster"
-                  src={`https://image.tmdb.org/t/p/w1280/${movie.poster_path}`}
-                  alt={movie.title}
+                  src={img}
+                  alt={dataCheck(movie.title)}
                 />
                 <div className="movie-detail-top__box">
                   <div>
-                    <h3 className="movie-detail-text__title">{movie.title}</h3>
+                    <h3 className="movie-detail-text__title">
+                      {dataCheck(movie.title)}
+                    </h3>
                     <p className="movie-detail-text__original">
-                      {movie.original_title}
+                      {" "}
+                      {dataCheck(movie.original_title)}
                     </p>
                   </div>
                   <div>
                     <div className="movie-detail-top__sub">
                       <h4 className="movie-detail-text__sub">평점 :</h4>
-                      <p>{movie.vote_average}</p>
+                      <p>{dataCheck(movie.vote_average)}</p>
                     </div>
                     <div className="movie-detail-top__sub">
                       <h4 className="movie-detail-text__sub">개봉 :</h4>
-                      <p>{movie.release_date}</p>
+                      <p>{dataCheck(movie.release_date)}</p>
                     </div>
                     <div className="movie-detail-top__sub">
                       <h4 className="movie-detail-text__sub">장르 :</h4>
-                      {movie.genres.map((a) => {
+                      {dataCheck(movie.genres).map((a) => {
                         return <p key={a.id}>{a.name}</p>;
                       })}
                     </div>
 
                     <div className="movie-detail-top__sub">
                       <h4 className="movie-detail-text__sub">제작사 :</h4>
-                      {movie.production_companies.map((a) => {
+                      {dataCheck(movie.production_companies).map((a) => {
                         return <p key={a.id}>{a.name} </p>;
                       })}
                     </div>
@@ -114,8 +135,12 @@ function Sub() {
               </div>
               {/* middle detail */}
               <div className="movie-detail-text">
-                <h4 className="movie-detail-text__tagline">{movie.tagline}</h4>
-                <p className="movie-detail-text__overview">{movie.overview}</p>
+                <h4 className="movie-detail-text__tagline">
+                  {dataCheck(movie.tagline)}
+                </h4>
+                <p className="movie-detail-text__overview">
+                  {dataCheck(movie.overview)}
+                </p>
               </div>
               {/* foot swiper */}
               <Swiper
@@ -125,6 +150,7 @@ function Sub() {
                 spaceBetween={10}
                 slidesPerView={"auto"}
                 freeMode={true}
+                touchRatio={0}
                 modules={[Autoplay, FreeMode]}
                 onSwiper={(swiper) => setSwiper(swiper)}
                 onSlideChange={(e) => {
@@ -132,7 +158,7 @@ function Sub() {
                 }}
                 autoplay={{ delay: 1, disableOnInteraction: false }}
               >
-                {stores.movieDetailImg.map((a, index) => {
+                {dataCheck(stores.movieDetailImg).map((a, index) => {
                   return (
                     <SwiperSlide key={index}>
                       <img
@@ -150,8 +176,8 @@ function Sub() {
             {/* 배경이미지 */}
             <img
               className="movie-detail-bg"
-              src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}
-              alt={movie.title}
+              src={imgBack}
+              alt={dataCheck(movie.title)}
             />
           </motion.div>
         )}

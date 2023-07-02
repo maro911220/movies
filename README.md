@@ -1,19 +1,23 @@
 # MOVIES
 
-영화 API(themoviedb)를 사용해 영화 리스트를 보거나 검색등이 가능한 메인페이지와
-선택한 영화를 자세히 볼 수 있는 상세 페이지를 구현
+API [themoviedb](https://www.themoviedb.org/)를 활용하여 영화 리스트를 확인하고 검색할 수 있는 메인 페이지와
+선택한 영화의 상세 정보를 제공하는 상세 페이지를 구현하였습니다.
 
-## Getting Started
+## 배포 주소
+
+[netfliy](https://maromovies.netlify.app/)
+
+## 시작 가이드
 
 실행을 위해선 (themoviedb)APIKEY가 필요
-혹은 [netfliy에서 확인 가능](https://maromovies.netlify.app/)
 
 ```
-npm i
+git cline https://github.com/maro911220/movies.git
+npm install
 ```
 
 ```
-.env 파일 생성 후
+.env 파일 생성 후 내용 작성
 VITE_SOME_KEY=발급받은 APIKEY
 ```
 

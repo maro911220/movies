@@ -1,17 +1,17 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import useStore from "../store/store.js";
 import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import Load from "../components/Load.jsx";
+import { IoMdArrowRoundUp } from "react-icons/io";
 
 // 홈 컴포넌트
 function Home() {
   const stores = useStore((state) => state);
   const [ref, inView] = useInView();
   const [loading, setLoading] = useState(false);
+  const [topBtn, setTopBtn] = useState(false);
 
   // 처음 불러오기
   useEffect(() => {
@@ -19,6 +19,11 @@ function Home() {
     if (stores.pageStart == true) {
       stores.fetchData();
     }
+
+    window.addEventListener("scrollend", () => {
+      console.log(window.scrollY);
+      window.scrollY > 100 ? setTopBtn(true) : setTopBtn(false);
+    });
   }, []);
 
   // 스크롤 옵저버
@@ -73,6 +78,26 @@ function Home() {
 
       {/* 영화 리스트 */}
       <div className="movie-list">
+        <AnimatePresence>
+          {topBtn && (
+            <motion.button
+              className="up-btn"
+              onClick={() => {
+                window.scrollTo(0, 0);
+              }}
+              initial={{ opacity: 0, y: 0 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 0 }}
+              whileHover={{
+                y: [0, 5],
+                transition: { repeat: Infinity, repeatType: "mirror" },
+              }}
+            >
+              <span className="blind">위로 올라가기</span>
+              <IoMdArrowRoundUp />
+            </motion.button>
+          )}
+        </AnimatePresence>
         {!stores.movieSearch
           ? stores.movieData.map((a, index) => {
               return <List data={a} key={index} listRef={ref} />;
@@ -101,14 +126,18 @@ function Home() {
 
 // 리스트 컴포넌트
 function List({ data, listRef }) {
-  let img, date;
-  data.poster_path != null
-    ? (img = `https://image.tmdb.org/t/p/w500/${data.poster_path}`)
-    : (img = `https://cdn.pixabay.com/photo/2016/11/21/17/33/body-1846668_1280.jpg`);
+  // 이미지가 없을 경우 임시 이미지로 대처
+  const img = data.poster_path
+    ? `https://image.tmdb.org/t/p/w500/${data.poster_path}`
+    : `${import.meta.env.BASE_URL}dummy_poster.jpg`;
 
-  data.release_date != "" ? (date = data.release_date) : (date = `???`);
+  // 값이 없을 경우 데이터 없음 표시
+  const dataCheck = (e) => {
+    return e !== "" ? e : "No data";
+  };
 
   const [hover, setHover] = useState(false);
+
   return (
     <motion.div
       initial={{ y: -100, opacity: 0 }}
@@ -121,12 +150,7 @@ function List({ data, listRef }) {
     >
       <Link to={`/sub/${data.id}`}>
         <div className="movie-list-item__img">
-          <motion.img
-            animate={{ scale: hover ? 1.05 : 1 }}
-            transition={{ duration: 0.5 }}
-            src={img}
-            alt={data.title}
-          />
+          <img src={img} alt={dataCheck(data.title)} />
           <AnimatePresence>
             {hover && (
               <>
@@ -137,12 +161,12 @@ function List({ data, listRef }) {
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.3, ease: "easeIn", delay: 0.2 }}
                 >
-                  <p> {data.overview}</p>
+                  <p> {dataCheck(data.overview)}</p>
                 </motion.div>
                 <motion.div
-                  initial={{ opacity: 0, y: "-100%" }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: "-100%" }}
+                  initial={{ opacity: 0, x: "-100%" }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: "-100%" }}
                   transition={{ duration: 0.3, ease: "easeIn" }}
                   className="movie-list-item__wrap"
                 />
@@ -151,9 +175,9 @@ function List({ data, listRef }) {
           </AnimatePresence>
         </div>
         <div className="movie-list-item__title">
-          <p>{data.title}</p>
-          <p>{data.original_title}</p>
-          <p>{date}</p>
+          <p>{dataCheck(data.title)}</p>
+          <p>{dataCheck(data.original_title)}</p>
+          <p>{dataCheck(data.release_date)}</p>
         </div>
       </Link>
     </motion.div>
