@@ -11,16 +11,12 @@
 
 - 프로젝트를 실행하기 위해서는 (themoviedb) API 키가 필요합니다.
 
-```
-git clone https://github.com/maro911220/movies.git
-npm install
-```
-
-```
-프로젝트 최상위에 .env 파일을 생성하고 아래 내용을 작성한 뒤 저장해주세요
-VITE_SOME_KEY=발급받은 APIKEY
-```
-
-```
+```bash
 npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
